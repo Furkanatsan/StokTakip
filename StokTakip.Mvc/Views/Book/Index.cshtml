@@ -1,0 +1,83 @@
+﻿
+@model StokTakip.Bll.Dtos.BookListDto
+@using StokTakip.Bll.ResultType.Enums
+@{
+    ViewBag.Title = "Kitaplar";
+}
+@if (Model.ResultStatus == ResultStatus.Success)
+{
+    <div class="card mt-3">
+        <div class="card-header">
+            <i class="fas fa-table mr-1"></i>
+            Kitaplar
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <a class="btn btn-info"asp-controller="book" asp-action="Add">Yeni Kitap Ekle</a>
+                <table class="table table-bordered" id="booksTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Kategori ID</th>
+                            <th>Yazar ID</th>
+                            <th>Stok</th>
+                            <th>Güncellenme Tarihi</th>
+                            <th>Sil</th>
+                            <th>Güncelle</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Kategori ID</th>
+                            <th>Yazar ID</th>
+                            <th>Stok</th>
+                            <th>Güncellenme Tarihi</th>
+                            <th>Sil</th>
+                            <th>Güncelle</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        @foreach (var book in Model.Books)
+                        {
+                            <tr>
+                                <td>@book.ID</td>
+                                <td>@book.Name</td>
+                                <td>@book.CategoryId</td>
+                                <td>@book.AuthorId</td>
+                                <td>@book.Stock</td>
+                                <td>@book.UpdatedDate</td>
+                                <td>
+                                    <a asp-controller="book" asp-action="Delete" asp-route-id="@book.ID"  class="btn btn-danger text-light">Sil</a>
+                                </td>
+                                <td>
+                                    <a asp-controller="book" asp-action="Update" asp-route-id="@book.ID" class="btn btn-success text-light">Güncelle</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}
+@if (Model.ResultStatus != ResultStatus.Success)
+{
+    <div class="alert alert-danger mt-3">
+        @Model.Message <br />
+        Ana Sayfaya dönmek için <a class="alert-link" asp-controller="Home" asp-action="Index"> tıklayınız</a>.
+    </div>
+}
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#booksTable').DataTable({
+                pageLength: 8
+            });
+        });
+    </script>
+}
+
+

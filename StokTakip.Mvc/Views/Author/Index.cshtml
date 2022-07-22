@@ -1,0 +1,70 @@
+﻿@using StokTakip.Bll.ResultType.Enums
+@model StokTakip.Bll.Dtos.AuthorListDto
+@{
+    ViewBag.Title = "Yazarlar";
+}
+
+@if (Model.ResultStatus == ResultStatus.Success)
+{
+    <div class="card mt-3">
+        <div class="card-header">
+            <i class="fas fa-table mr-1"></i>
+            Yazarlar
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <a class="btn btn-info"asp-controller="Author" asp-action="Add">Yeni Yazar Ekle</a>
+                <table class="table table-bordered" id="authorsTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Sil</th>
+                            <th>Güncelle</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Sil</th>
+                            <th>Güncelle</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        @foreach (var author in Model.Authors)
+                        {
+                            <tr>
+                                <td>@author.ID</td>
+                                <td>@author.FullName</td>
+                                <td>
+                                    <a asp-controller="author" asp-action="Delete" asp-route-id="@author.ID" class="btn btn-danger text-light">Sil</a>
+                                </td>
+                                <td>
+                                    <a  asp-controller="author" asp-action="Update" asp-route-id="@author.ID" class="btn btn-success text-light">Güncelle</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}
+@if (Model.ResultStatus != ResultStatus.Success)
+{
+    <div class="alert alert-danger mt-3">
+        @Model.Message <br />
+        Ana Sayfaya dönmek için <a class="alert-link" asp-controller="Home" asp-action="Index"> tıklayınız</a>.
+    </div>
+}
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#authorsTable').DataTable({
+                pageLength: 8
+            }
+            );
+        });
+    </script>
+}

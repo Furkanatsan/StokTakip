@@ -1,0 +1,22 @@
+﻿@model StokTakip.Bll.Dtos.AuthorUpdateDto
+@{
+    ViewBag.Title = "Yazar Güncelle";
+}
+<div class="card mt-3">
+    <div class="card-header">
+        <i class="fas fa-table mr-1"></i>
+        Yazar Güncelle
+    </div>
+    <div class="card-body">
+        <form class="form-group" method="post">
+            <div class="form-group">
+                <label asp-for="ID"></label>
+                <input type="text" class="form-control" asp-for="ID" /><span class="text-danger" asp-validation-for="ID"></span>
+                <label asp-for="FullName"></label>
+                <input type="text" class="form-control" asp-for="FullName" /><span class="text-danger" asp-validation-for="FullName"></span>
+            </div>
+            <a class="btn btn-danger" asp-controller="category" asp-action="Index"><span class="fas fa-times"></span> İptal</a>
+            <button class="btn btn-primary"><span class="fas fa-save"></span> Kaydet</button>
+        </form>
+    </div>
+</div>

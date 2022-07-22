@@ -1,0 +1,74 @@
+﻿@using StokTakip.Bll.ResultType.Enums
+@model StokTakip.Bll.Dtos.CategoryListDto
+@{
+    ViewBag.Title = "Kategoriler";
+}
+
+@if (Model.ResultStatus == ResultStatus.Success)
+{
+    <div class="card mt-3 mb-3">
+        <div class="card-header">
+            <i class="fas fa-table mr-1"></i>
+            Kategoriler
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+
+                <a class="btn btn-info" asp-controller="Category" asp-action="Add"  >Yeni Kategori Ekle</a>
+                <table class="table table-bordered" id="categoriesTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Sil</th>
+                            <th>Güncelle</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Sil</th>
+                            <th>Güncelle</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        @foreach (var category in Model.Categories)
+                        {
+                            <tr>
+                                <td>@category.ID</td>
+                                <td>@category.Name</td>
+                                <td>
+                                    <a asp-controller="category" asp-action="Delete" asp-route-id="@category.ID" class="btn btn-danger text-light">Sil</a>
+                                </td>
+                                <td>
+                                    <a asp-controller="category" asp-action="Update" asp-route-id="@category.ID" class="btn btn-success text-light">Güncelle</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+}
+@if (Model.ResultStatus != ResultStatus.Success)
+{ 
+    <div class="alert alert-danger mt-3">
+        @Model.Message <br/>
+        Ana Sayfaya dönmek için <a class="alert-link" asp-controller="Home" asp-action="Index" > tıklayınız</a>.
+    </div>
+}
+    @section Scripts{
+        <script>
+            $(document).ready(function () {
+                $('#categoriesTable').DataTable({
+                    pageLength: 8
+                }
+                );
+            });
+        </script>
+    }
+
+
