@@ -14,7 +14,6 @@ namespace StokTakip.Bll.Abstract
         Task<IDataResult<AuthorListDto>> GetAllAsync();//tümünü getir
         Task<IResult> AddAsync(AuthorAddDto authorAddDto);
         Task<IResult> UpdateAsync(AuthorUpdateDto authorUpdateDto);
-        Task<IResult> DeleteAsync(int authorId);//isDeleted i true yapar
         Task<IResult> HardDeleteAsync(int authorId);//gerçekten siler.
         Task<IDataResult<int>> CountAsync();
     }

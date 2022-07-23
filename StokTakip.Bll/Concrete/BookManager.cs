@@ -44,18 +44,7 @@ namespace StokTakip.Bll.Concrete
             }
         }
 
-        public async Task<IResult> DeleteAsync(int bookId)
-        {
-            var result = await _unitOfWork.Book.AnyAsync(a => a.ID == bookId);
-            if (result)
-            {
-                var book = await _unitOfWork.Book.GetAsync(a => a.ID == bookId);
-                await _unitOfWork.Book.UpdateAsync(book);
-                await _unitOfWork.SaveAsync();
-                return new Result(ResultStatus.Success, $"{book.Name} Adlı kitap başarıyla silinmiştir.");
-            }
-            return new Result(ResultStatus.Error, "Böyle bir kitap bulunamadı.");
-        }
+        
 
         public async Task<IDataResult<BookListDto>> GetAllAsync()
         {

@@ -15,7 +15,6 @@ namespace StokTakip.Bll.Abstract
         Task<IDataResult<BookListDto>> GetAllByCategoryAsync(int categoryId);//kategoriye göre kitapları getir.
         Task<IResult> AddAsync(BookAddDto bookAddDto);
         Task<IResult> UpdateAsync(BookUpdateDto bookUpdateDto);
-        Task<IResult> DeleteAsync(int bookId);//isDeleted i true yapar
         Task<IResult> HardDeleteAsync(int bookId);//gerçekten siler.
         Task<IDataResult<int>> CountAsync();
     }

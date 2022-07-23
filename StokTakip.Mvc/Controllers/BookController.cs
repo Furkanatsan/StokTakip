@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StokTakip.Bll.Abstract;
 using StokTakip.Bll.Dtos;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace StokTakip.Mvc.Controllers
 {
+    [Authorize]
     public class BookController : Controller
     {
         private readonly IBookService _bookService;
@@ -31,7 +33,7 @@ namespace StokTakip.Mvc.Controllers
 
             return View(result.Data);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> Add()
         {
@@ -44,7 +46,7 @@ namespace StokTakip.Mvc.Controllers
                 Authors=resultAuthors.Data.Authors
             });
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Add(BookAddViewModel bookAddViewModel)
         {
@@ -56,14 +58,14 @@ namespace StokTakip.Mvc.Controllers
             }
             return View();
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
             await _bookService.HardDeleteAsync(id);
             return RedirectToAction("Index","book");
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> Update(int Id)
         {
@@ -79,6 +81,7 @@ namespace StokTakip.Mvc.Controllers
                 Authors = resultAuthors.Data.Authors
             });
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Update(BookUpdateViewModel bookUpdateViewModel)
         {

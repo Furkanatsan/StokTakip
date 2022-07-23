@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,16 +17,62 @@ namespace StokTakip.Mvc.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
-        public UserController(UserManager<User> userManager, IMapper mapper)
+        private readonly SignInManager<User> _signInManager;
+        public UserController(UserManager<User> userManager, IMapper mapper, SignInManager<User> signInManager)
         {
             _userManager = userManager;
             _mapper = mapper;
+            _signInManager = signInManager;
         }
 
-        public IActionResult Index()
+
+        [HttpGet]
+        public IActionResult Login()
         {
-            return View();
+            return View("UserLogin");//action adı ile view uyuşmadığından dolayı belirttik.
         }
+        [HttpPost]
+        public async Task<IActionResult> Login(UserLoginDto userLoginDto)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(userLoginDto.Email);
+                if (user != null)
+                {
+                    var result = await _signInManager.PasswordSignInAsync(user, userLoginDto.Password, userLoginDto.RememberMe, false);//4. parametre lockout değeri fazla deneme varsa kitler
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index", "Home");
+
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "E-posta adresiniz veya şifreniz yanlış");
+                        return View("UserLogin");
+                    }
+
+                }
+                else
+                {
+                    ModelState.AddModelError("", "E-posta adresiniz veya şifreniz yanlış");
+                    return View("UserLogin");
+                }
+            }
+            else
+            {
+                return View("UserLogin");
+            }
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Login", "User");
+        }
+
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> UserList()
         {
             var users = await _userManager.Users.ToListAsync();
@@ -34,12 +81,13 @@ namespace StokTakip.Mvc.Controllers
             ResultStatus=ResultStatus.Success
             });
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Add()
         {
             return View();
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Add(UserAddDto userAddDto)
         {
@@ -52,14 +100,14 @@ namespace StokTakip.Mvc.Controllers
             }
             return View();
         }
-
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int Id)
         {
             var result =await _userManager.FindByIdAsync(Id.ToString());
             await _userManager.DeleteAsync(result);
             return RedirectToAction("UserList", "User");
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> Update(int Id)
         {
@@ -67,6 +115,7 @@ namespace StokTakip.Mvc.Controllers
             var userUpdateDto = _mapper.Map<UserUpdateDto>(user);
             return View(userUpdateDto);
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Update(UserUpdateDto userUpdateDto)
         {
@@ -79,5 +128,13 @@ namespace StokTakip.Mvc.Controllers
             }
             return View();
         }
+
+        [HttpGet]
+        public IActionResult Accessdenied()
+        {
+            return View();
+        }
+
+
     }
 }

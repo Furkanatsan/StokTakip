@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StokTakip.Bll.Abstract;
 using StokTakip.Bll.Dtos;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace StokTakip.Mvc.Controllers
 {
+    [Authorize]
     public class CategoryController : Controller
     {
         private readonly ICategoryService _categoryService;
@@ -26,13 +28,13 @@ namespace StokTakip.Mvc.Controllers
             var result = await _categoryService.GetAllAsync();
                 return View(result.Data);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Add()
         {
             return View();
         }
-        
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Add(CategoryAddDto categoryAddDto)
         {
@@ -44,7 +46,7 @@ namespace StokTakip.Mvc.Controllers
                 return View();
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
@@ -53,7 +55,7 @@ namespace StokTakip.Mvc.Controllers
             return RedirectToAction("Index", "Category");
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> Update(int Id)
         {
@@ -61,6 +63,7 @@ namespace StokTakip.Mvc.Controllers
            var result2 = _mapper.Map<CategoryUpdateDto>(result.Data.Category);
             return View(result2);
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Update(CategoryUpdateDto categoryUpdateDto)
         {

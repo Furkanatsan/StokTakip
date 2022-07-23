@@ -52,27 +52,6 @@ namespace StokTakip.Bll.Concrete
             }
         }
 
-        public async Task<IResult> DeleteAsync(int authorId)
-        {
-            var author = await _unitOfWork.Author.GetAsync(c => c.ID == authorId);
-            if (author != null)
-            {
-                var deletedAuthor = await _unitOfWork.Author.UpdateAsync(author);
-                await _unitOfWork.SaveAsync();//delete ve save işlemi
-                return new DataResult<AuthorDto>(ResultStatus.Success, $"{deletedAuthor.FullName} adlı yazar başarıyla silinmiştir.", new AuthorDto
-                {
-                    Author = deletedAuthor,
-                    ResultStatus = ResultStatus.Success,
-                    Message = $"{deletedAuthor.FullName} adlı kategori başarıyla silinmiştir."
-                });
-            }
-            return new DataResult<AuthorDto>(ResultStatus.Error, $"Böyle bir yazar bulunamamıştır.", new AuthorDto
-            {
-                Author = null,
-                ResultStatus = ResultStatus.Error,
-                Message = $"Böyle bir yazar bulunamamıştır."
-            });
-        }
 
         public async Task<IDataResult<AuthorListDto>> GetAllAsync()
         {

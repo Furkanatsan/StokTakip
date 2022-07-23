@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StokTakip.Bll.Abstract;
 using StokTakip.Bll.Dtos;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace StokTakip.Mvc.Controllers
 {
+    [Authorize]
     public class AuthorController : Controller
     {
         private readonly IAuthorService _authorService;
@@ -29,13 +31,13 @@ namespace StokTakip.Mvc.Controllers
             }
             return View();
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Add()
         {
             return View();
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Add(AuthorAddDto authorAddDto)
         {
@@ -46,7 +48,7 @@ namespace StokTakip.Mvc.Controllers
             }
             return View();
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
@@ -54,7 +56,7 @@ namespace StokTakip.Mvc.Controllers
             return RedirectToAction("Index", "Author");
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> Update(int Id)
         {
@@ -62,6 +64,7 @@ namespace StokTakip.Mvc.Controllers
             var newResult = _mapper.Map<AuthorUpdateDto>(result.Data.Author);
             return View(newResult);
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Update(AuthorUpdateDto authorUpdateDto)
         {

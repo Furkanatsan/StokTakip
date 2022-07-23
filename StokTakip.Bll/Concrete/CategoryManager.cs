@@ -51,28 +51,7 @@ namespace StokTakip.Bll.Concrete
             }
         }
 
-        public async Task<IDataResult<CategoryDto>> DeleteAsync(int categoryId)
-        {
-            var category = await _unitOfWork.Category.GetAsync(c => c.ID == categoryId);
-            if (category != null)
-            {
-                var deletedCategory = await _unitOfWork.Category.UpdateAsync(category);
-                await _unitOfWork.SaveAsync();//delete ve save işlemi
-                return new DataResult<CategoryDto>(ResultStatus.Success, $"{deletedCategory.Name} adlı kategori başarıyla silinmiştir.", new CategoryDto
-                {
-                    Category = deletedCategory,
-                    ResultStatus = ResultStatus.Success,
-                    Message = $"{deletedCategory.Name} adlı kategori başarıyla silinmiştir."
-                });
-            }
-            return new DataResult<CategoryDto>(ResultStatus.Error, $"Böyle bir kategori bulunamamıştır.", new CategoryDto
-            {
-                Category = null,
-                ResultStatus = ResultStatus.Error,
-                Message = $"Böyle bir kategori bulunamamıştır."
-            });
-        }
-
+      
         public async Task<IDataResult<CategoryListDto>> GetAllAsync()
         {
             var categories = await _unitOfWork.Category.GetAllAsync(null);//tüm kategorileri getiricek

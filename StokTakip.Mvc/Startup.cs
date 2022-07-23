@@ -42,7 +42,7 @@ namespace StokTakip.Mvc
                 options.Password.RequireLowercase = false;//küçük harf zorunluluðu
                 options.Password.RequireUppercase = false;//büyük harf bulunmasý
                 //username and email options
-                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrsþtuüvwxyzABCDEFGHIÝJKLMNOPQRSÞTUÜVWXYZ0123456789-._@+*";//kullanýcý adý oluþtuturken izin verilen özel karakterler
+                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";//kullanýcý adý oluþtuturken izin verilen özel karakterler
                 options.User.RequireUniqueEmail = true;//unique email
             }).AddEntityFrameworkStores<StokTakipDbContext>();
             #endregion
