@@ -1,0 +1,73 @@
+﻿@using StokTakip.Bll.ResultType.Enums
+@model StokTakip.Bll.Dtos.UserListDto
+@{
+    ViewBag.Title = "Kullanıcılar";
+}
+
+@if (Model.ResultStatus == ResultStatus.Success)
+{
+    <div class="card mt-3">
+        <div class="card-header">
+            <i class="fas fa-table mr-1"></i>
+            Kullanıcılar
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <a class="btn btn-info" asp-controller="User" asp-action="Add">Yeni Kullanıcı Ekle</a>
+                <table class="table table-bordered" id="usersTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Kullanıcı Adı</th>
+                            <th>E-Posta</th>
+                            <th>Sil</th>
+                            <th>Güncelle</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>ID</th>
+                            <th>Kullanıcı Adı</th>
+                            <th>E-Posta</th>
+                            <th>Sil</th>
+                            <th>Güncelle</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        @foreach (var user in Model.Users)
+                        {
+                            <tr>
+                                <td>@user.Id</td>
+                                <td>@user.UserName</td>
+                                <td>@user.Email</td>
+                                <td>
+                                    <a asp-controller="User" asp-action="Delete" asp-route-id="@user.Id" class="btn btn-danger text-light">Sil</a>
+                                </td>
+                                <td>
+                                    <a asp-controller="User" asp-action="Update" asp-route-id="@user.Id" class="btn btn-success text-light">Güncelle</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}
+@if (Model.ResultStatus != ResultStatus.Success)
+{
+    <div class="alert alert-danger mt-3">
+        @Model.Message <br />
+        Ana Sayfaya dönmek için <a class="alert-link" asp-controller="Home" asp-action="Index"> tıklayınız</a>.
+    </div>
+}
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#usersTable').DataTable({
+                pageLength: 8
+            }
+            );
+        });
+    </script>
+}

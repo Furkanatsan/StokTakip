@@ -14,7 +14,7 @@ namespace StokTakip.Bll.AutoMapper.Profiles
         public AuthorProfile()
         {
             CreateMap<AuthorAddDto, Author>();
-            CreateMap<AuthorUpdateDto, Author>();
+            CreateMap<AuthorUpdateDto, Author>().ReverseMap();
             CreateMap<AuthorUpdateDto, AuthorDto>().ReverseMap();
         }
     }

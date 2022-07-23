@@ -1,0 +1,28 @@
+﻿@model StokTakip.Bll.Dtos.UserAddDto
+@{
+    ViewBag.Title = "Kullanıcı Ekle";
+}
+<div class="card mt-3">
+    <div class="card-header">
+        <i class="fas fa-table mr-1"></i>
+        Kullanıcı Ekle
+    </div>
+    <div class="card-body">
+        <form class="form-group" method="post">
+            <div class="form-group">
+                <label asp-for="UserName"></label>
+                <input type="text" class="form-control" asp-for="UserName" placeholder="Kullanıcı Adı Giriniz."/><span class="text-danger" asp-validation-for="UserName"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input type="email" class="form-control" asp-for="Email" placeholder="E-posta Giriniz." /><span class="text-danger" asp-validation-for="Email"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password"></label>
+                <input type="password" class="form-control" asp-for="Password" placeholder="Şifre Giriniz." /><span class="text-danger" asp-validation-for="Password"></span>
+            </div>
+            <a class="btn btn-danger" asp-controller="User" asp-action="UserList"><span class="fas fa-times"></span> İptal</a>
+            <button class="btn btn-primary"><span class="fas fa-save"></span> Kaydet</button>
+        </form>
+    </div>
+</div>

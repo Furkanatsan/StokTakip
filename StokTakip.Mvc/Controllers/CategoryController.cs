@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using StokTakip.Bll.Abstract;
 using StokTakip.Bll.Dtos;
 using StokTakip.Bll.ResultType.Enums;
+using StokTakip.Dal.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,7 +58,7 @@ namespace StokTakip.Mvc.Controllers
         public async Task<IActionResult> Update(int Id)
         {
             var result = await _categoryService.GetAsync(Id);
-           var result2 = _mapper.Map<CategoryUpdateDto>(result.Data);
+           var result2 = _mapper.Map<CategoryUpdateDto>(result.Data.Category);
             return View(result2);
         }
         [HttpPost]
@@ -65,7 +66,7 @@ namespace StokTakip.Mvc.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _categoryService.UpdateAsync(categoryUpdateDto);
+                await _categoryService.UpdateAsync(categoryUpdateDto);
             }
             return RedirectToAction("Index", "Category");
         }

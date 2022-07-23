@@ -59,7 +59,7 @@ namespace StokTakip.Mvc.Controllers
         public async Task<IActionResult> Update(int Id)
         {
             var result = await _authorService.GetAsync(Id);
-            var newResult = _mapper.Map<AuthorUpdateDto>(result.Data);
+            var newResult = _mapper.Map<AuthorUpdateDto>(result.Data.Author);
             return View(newResult);
         }
         [HttpPost]

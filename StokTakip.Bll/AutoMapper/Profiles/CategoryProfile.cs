@@ -15,7 +15,9 @@ namespace StokTakip.Bll.AutoMapper.Profiles
         {
             CreateMap<CategoryAddDto, Category>();
             CreateMap<CategoryUpdateDto, Category>();
-            CreateMap<CategoryUpdateDto, CategoryDto>().ReverseMap();
+            CreateMap<Category, CategoryUpdateDto>();
+            CreateMap<CategoryUpdateDto, CategoryDto>();
+            CreateMap<CategoryDto, CategoryUpdateDto>();
         }
      
 
