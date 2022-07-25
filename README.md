@@ -1,5 +1,5 @@
 # StokTakip
-Bir Kitap mağazasının kitap stoklarını taki edebilmek için yapılmış bir sistemdir.
+Bir Kitap mağazasının kitap stoklarını takip edebilmek için yapılmış bir sistemdir.
 <h3>Kullanılan Patternler ve teknolojiler<H3/>
 <p>-N-Tier ( DAL-BLL-MVC )<p/>
 <p>-Repository Pattern  <p/>
