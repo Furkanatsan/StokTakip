@@ -12,14 +12,10 @@ namespace StokTakip.Bll.Dtos
     {
         [DisplayName("E-Posta Adresi")]
         [Required(ErrorMessage = "{0} Boş Geçilmemelidir.")]//display name de dne yazıyorsa {0}buraya eklenicek.
-        [MaxLength(100, ErrorMessage = "{0} {1} karakterden büyük olmamalıdır.")]//dinamik kullandık tehrar tekrar yazmamak için
-        [MinLength(10, ErrorMessage = "{0} {1} karakterden küçük olmamalıdır.")]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
         [DisplayName("Şifre")]
         [Required(ErrorMessage = "{0} Boş Geçilmemelidir.")]//display name de dne yazıyorsa {0}buraya eklenicek.
-        [MaxLength(30, ErrorMessage = "{0} {1} karakterden büyük olmamalıdır.")]//dinamik kullandık tehrar tekrar yazmamak için
-        [MinLength(5, ErrorMessage = "{0} {1} karakterden küçük olmamalıdır.")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
         [DisplayName("Beni Hatırla")]

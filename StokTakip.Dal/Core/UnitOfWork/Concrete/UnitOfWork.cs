@@ -13,9 +13,9 @@ namespace StokTakip.Dal.Core.UnitOfWork.Concrete
     public class UnitOfWork : IUnitOfWork
     {
         private readonly StokTakipDbContext _context;
-        private CategoryRepository _categoryRepository;
-        private BookRepository _bookRepository;
-        private AuthorRepository _authorRepository;
+        private readonly CategoryRepository _categoryRepository;
+        private readonly BookRepository _bookRepository;
+        private readonly AuthorRepository _authorRepository;
         public UnitOfWork(StokTakipDbContext context)
         {
             _context = context;

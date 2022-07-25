@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StokTakip.Bll.Abstract;
 using StokTakip.Bll.Dtos;
+using StokTakip.Bll.ResultType.Enums;
 using StokTakip.Mvc.Models;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ namespace StokTakip.Mvc.Controllers
             _authorService = authorService;
             _mapper = mapper;
         }
-
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             var result = await _bookService.GetAllAsync();
@@ -93,6 +94,17 @@ namespace StokTakip.Mvc.Controllers
                 return RedirectToAction("Index", "Book");
             }
             return View();
+        }
+        
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> GetByCategory(int Id)
+        {
+            var result = await _bookService.GetAllByCategoryAsync(Id);
+
+                return View(result.Data);
+
+
         }
 
 

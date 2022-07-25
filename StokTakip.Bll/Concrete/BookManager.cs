@@ -76,9 +76,18 @@ namespace StokTakip.Bll.Concrete
 
                     });
                 }
-                return new DataResult<BookListDto>(ResultStatus.Error, "Kitaplar bulunamadı.", null);
+                return new DataResult<BookListDto>(ResultStatus.Error, "Kitaplar bulunamadı.", new BookListDto { 
+                Books=null,
+                ResultStatus=ResultStatus.Error,
+                Message="kitap bulunamadı"
+                });
             }
-            return new DataResult<BookListDto>(ResultStatus.Error, "Böyle bir kategori bulunamadı.", null);
+            return new DataResult<BookListDto>(ResultStatus.Error, "Böyle bir kategori bulunamadı.", new BookListDto
+            {
+                Books = null,
+                ResultStatus = ResultStatus.Error,
+                Message = "kitap bulunamadı"
+            });
         }
 
         public async Task<IDataResult<BookDto>> GetAsync(int bookId)

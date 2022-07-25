@@ -10,5 +10,6 @@ namespace StokTakip.Bll.Dtos
     public class CategoryListDto : DtoGetBase
     {
         public IList<Category> Categories { get; set; }
+        public IList<Book> Books { get; set; }
     }
 }

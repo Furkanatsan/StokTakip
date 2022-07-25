@@ -22,6 +22,7 @@
                             <th>Name</th>
                             <th>Sil</th>
                             <th>Güncelle</th>
+                            <th>Listele</th>
                         </tr>
                     </thead>
                     <tfoot>
@@ -30,21 +31,25 @@
                             <th>Name</th>
                             <th>Sil</th>
                             <th>Güncelle</th>
+                            <th>Listele</th>
                         </tr>
                     </tfoot>
                     <tbody>
                         @foreach (var category in Model.Categories)
                         {
-                            <tr>
-                                <td>@category.ID</td>
-                                <td>@category.Name</td>
-                                <td>
-                                    <a asp-controller="category" asp-action="Delete" asp-route-id="@category.ID" class="btn btn-danger text-light">Sil</a>
-                                </td>
-                                <td>
-                                    <a asp-controller="category" asp-action="Update" asp-route-id="@category.ID" class="btn btn-success text-light">Güncelle</a>
-                                </td>
-                            </tr>
+                        <tr>
+                            <td>@category.ID</td>
+                            <td>@category.Name</td>
+                            <td>
+                                <a asp-controller="category" asp-action="Delete" asp-route-id="@category.ID" class="btn btn-danger text-light">Sil</a>
+                            </td>
+                            <td>
+                                <a asp-controller="category" asp-action="Update" asp-route-id="@category.ID" class="btn btn-success text-light">Güncelle</a>
+                            </td>
+                            <td>
+                                <a asp-controller="book" asp-action="getbycategory" asp-route-id="@category.ID" class="btn btn-primary text-light">Listele</a>
+                            </td>
+                        </tr>
                         }
                     </tbody>
                 </table>
