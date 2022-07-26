@@ -6,6 +6,7 @@
 
 @if (Model.ResultStatus == ResultStatus.Success)
 {
+    <div id="modalIsHere" aria-hidden="true" ></div>
     <div class="card mt-3 mb-3">
         <div class="card-header">
             <i class="fas fa-table mr-1"></i>
@@ -14,7 +15,6 @@
         <div class="card-body">
             <div class="table-responsive">
 
-                <a class="btn btn-info" asp-controller="Category" asp-action="Add"  >Yeni Kategori Ekle</a>
                 <table class="table table-bordered" id="categoriesTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
@@ -41,13 +41,13 @@
                             <td>@category.ID</td>
                             <td>@category.Name</td>
                             <td>
-                                <a asp-controller="category" asp-action="Delete" asp-route-id="@category.ID" class="btn btn-danger text-light">Sil</a>
+                                <button data-id="@category.ID" class="btn btn-danger btn-delete text-light">Sil</button>
                             </td>
                             <td>
-                                <a asp-controller="category" asp-action="Update" asp-route-id="@category.ID" class="btn btn-success text-light">Güncelle</a>
+                                <button  data-id="@category.ID" class="btn btn-success btn-update text-light">Güncelle</button>
                             </td>
                             <td>
-                                <a asp-controller="book" asp-action="getbycategory" asp-route-id="@category.ID" class="btn btn-primary text-light">Listele</a>
+                                <button  data-id="@category.ID" class="btn btn-primary btn-list text-light">Listele</button>
                             </td>
                         </tr>
                         }
@@ -66,14 +66,7 @@
     </div>
 }
     @section Scripts{
-        <script>
-            $(document).ready(function () {
-                $('#categoriesTable').DataTable({
-                    pageLength: 8
-                }
-                );
-            });
-        </script>
+        <script src="~/js/categoryIndex.js" ></script>
     }
 
 

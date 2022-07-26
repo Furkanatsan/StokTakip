@@ -1,61 +1,64 @@
 ﻿@model StokTakip.Bll.Dtos.BookListDto
 @using StokTakip.Bll.ResultType.Enums
-@{
-    ViewBag.Title = "Kitaplar";
-}
+
 @if (Model.ResultStatus == ResultStatus.Success)
 {
-    <div class="card mt-3">
-        <div class="card-header">
-            <i class="fas fa-table mr-1"></i>
-            Kitaplar
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered" id="booksTable" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Kategori ID</th>
-                            <th>Yazar ID</th>
-                            <th>Stok</th>
-                            <th>Güncellenme Tarihi</th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Kategori ID</th>
-                            <th>Yazar ID</th>
-                            <th>Stok</th>
-                            <th>Güncellenme Tarihi</th>
-                        </tr>
-                    </tfoot>
-                    <tbody>
-                        @foreach (var book in Model.Books)
-                        {
+    <div class="modal fade bd-example-modal-lg " tabindex="-1" role="dialog" aria-hidden="true"  >
+        <div class="modal-dialog  modal-lg "  >
+            <div class="modal-content " >
+                <div class="modal-header">
+                    <h5 class="modal-title">Kategorinin kitapları </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="iptal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered" id="booksTable"  cellspacing="0">
+                        <thead>
                             <tr>
-                                <td>@book.ID</td>
-                                <td>@book.Name</td>
-                                <td>@book.CategoryId</td>
-                                <td>@book.AuthorId</td>
-                                <td>@book.Stock</td>
-                                <td>@book.UpdatedDate</td>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Kategori ID</th>
+                                <th>Yazar ID</th>
+                                <th>Stok</th>
+                                <th>Güncellenme Tarihi</th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Kategori ID</th>
+                                <th>Yazar ID</th>
+                                <th>Stok</th>
+                                <th>Güncellenme Tarihi</th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach (var book in Model.Books)
+                            {
+                                <tr>
+                                    <td>@book.ID</td>
+                                    <td>@book.Name</td>
+                                    <td>@book.CategoryId</td>
+                                    <td>@book.AuthorId</td>
+                                    <td>@book.Stock</td>
+                                    <td>@book.UpdatedDate</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                </div>
             </div>
         </div>
     </div>
 }
 else
 {
-    <div class="alert alert-danger mt-3">
-        @Model.Message <br />
-        Ana Sayfaya dönmek için <a class="alert-link" asp-controller="Home" asp-action="Index"> tıklayınız</a>.
+    <div class="alert alert-danger mt-4">
+        @Model.Message 
     </div>
 }
 

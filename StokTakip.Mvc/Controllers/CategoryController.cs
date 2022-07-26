@@ -5,9 +5,13 @@ using StokTakip.Bll.Abstract;
 using StokTakip.Bll.Dtos;
 using StokTakip.Bll.ResultType.Enums;
 using StokTakip.Dal.Entities;
+using StokTakip.Mvc.Extensions;
+using StokTakip.Mvc.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace StokTakip.Mvc.Controllers
@@ -32,7 +36,7 @@ namespace StokTakip.Mvc.Controllers
         [HttpGet]
         public IActionResult Add()
         {
-            return View();
+            return PartialView("Add");
         }
         [Authorize(Roles = "Admin")]
         [HttpPost]
@@ -40,28 +44,40 @@ namespace StokTakip.Mvc.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _categoryService.AddAsync(categoryAddDto);
-                return RedirectToAction("Index","Category");
+                var result = await _categoryService.AddAsync(categoryAddDto);
+                if (result.ResultStatus == ResultStatus.Success)
+                {
+                    var categoryAddAjaxModel = JsonSerializer.Serialize(new CategoryAddAjaxViewModel
+                    {
+                        CategoryDto = result.Data,
+                        CategoryAdd = await this.RenderViewToStringAsync("Add", categoryAddDto)//string olarak geliyor.
+                    });
+                    return Json(categoryAddAjaxModel);
+                }
             }
-                return View();
+            var categoryAddAjaxErrorModel = JsonSerializer.Serialize(new CategoryAddAjaxViewModel
+            {
+                CategoryAdd = await this.RenderViewToStringAsync("Add", categoryAddDto)//string olarak geliyor
+            });
+            return Json(categoryAddAjaxErrorModel);
         }
+
+        //[Authorize(Roles = "Admin")]
+        //[HttpGet]
+        //public async Task<IActionResult> Delete(int id)
+        //{
+        //    await _categoryService.HardDeleteAsync(id);
+
+        //    return RedirectToAction("Index", "Category");
+        //}
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Update(int categoryId)
         {
-            await _categoryService.HardDeleteAsync(id);
-
-            return RedirectToAction("Index", "Category");
-        }
-
-        [Authorize(Roles = "Admin")]
-        [HttpGet]
-        public async Task<IActionResult> Update(int Id)
-        {
-            var result = await _categoryService.GetAsync(Id);
+            var result = await _categoryService.GetAsync(categoryId);
            var result2 = _mapper.Map<CategoryUpdateDto>(result.Data.Category);
-            return View(result2);
+            return PartialView("Update",result2);
         }
         [Authorize(Roles = "Admin")]
         [HttpPost]
@@ -69,9 +85,42 @@ namespace StokTakip.Mvc.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _categoryService.UpdateAsync(categoryUpdateDto);
+                var result = await _categoryService.UpdateAsync(categoryUpdateDto);
+                if (result.ResultStatus == ResultStatus.Success)
+                {
+                    var categoryUpdateAjaxModel = JsonSerializer.Serialize(new CategoryUpdateAjaxViewModel
+                    {
+                        CategoryDto = result.Data,
+                        CategoryUpdate = await this.RenderViewToStringAsync("Update", categoryUpdateDto)//string olarak geliyor
+                    });
+                    return Json(categoryUpdateAjaxModel);
+                }
             }
-            return RedirectToAction("Index", "Category");
+            var categoryUpdateAjaxErrorModel = JsonSerializer.Serialize(new CategoryUpdateAjaxViewModel
+            {
+                CategoryUpdate = await this.RenderViewToStringAsync("Update", categoryUpdateDto)//string olarak geliyor
+            });
+            return Json(categoryUpdateAjaxErrorModel);
+        }
+
+        [Authorize]
+        public async Task<JsonResult> GetAllCategories()
+        {
+            var result = await _categoryService.GetAllAsync();
+            var categories = JsonSerializer.Serialize(result.Data, new JsonSerializerOptions
+            {
+                ReferenceHandler = ReferenceHandler.Preserve
+            });
+            return Json(categories);
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> Delete(int categoryId)
+        {
+            var result = await _categoryService.HardDeleteAsync(categoryId);
+            var deletedCategory = JsonSerializer.Serialize(result);
+            return Json(deletedCategory);
+
         }
 
     }

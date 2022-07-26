@@ -16,6 +16,7 @@ using StokTakip.Mvc.AutoMapper.Profiles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace StokTakip.Mvc
@@ -65,7 +66,11 @@ namespace StokTakip.Mvc
             });
             #endregion
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddJsonOptions(opt =>
+            {
+                opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;//iç içe objelerde hata almamamýzý saðlar.
+            });
             services.AddSession();
             services.AddAutoMapper(typeof(CategoryProfile), typeof(AuthorProfile), typeof(BookProfile),typeof(ViewModelsProfile), typeof(UserProfile));
             services.AddDbContext<StokTakipDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));

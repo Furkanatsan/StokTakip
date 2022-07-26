@@ -8,6 +8,8 @@ using StokTakip.Mvc.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace StokTakip.Mvc.Controllers
@@ -40,11 +42,12 @@ namespace StokTakip.Mvc.Controllers
         {
             var resultCategories = await _categoryService.GetAllAsync();
             var resultAuthors = await _authorService.GetAllAsync();
-            
-            return View(new BookAddViewModel{
-            
-                Categories=resultCategories.Data.Categories,
-                Authors=resultAuthors.Data.Authors
+
+            return View(new BookAddViewModel
+            {
+
+                Categories = resultCategories.Data.Categories,
+                Authors = resultAuthors.Data.Authors
             });
         }
         [Authorize(Roles = "Admin")]
@@ -64,7 +67,7 @@ namespace StokTakip.Mvc.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             await _bookService.HardDeleteAsync(id);
-            return RedirectToAction("Index","book");
+            return RedirectToAction("Index", "book");
         }
         [Authorize(Roles = "Admin")]
         [HttpGet]
@@ -75,9 +78,9 @@ namespace StokTakip.Mvc.Controllers
             var result = await _bookService.GetAsync(Id);
             return View(new BookUpdateViewModel
             {
-                ID=result.Data.Books.ID,
-                Name=result.Data.Books.Name,
-                Stock=result.Data.Books.Stock,
+                ID = result.Data.Books.ID,
+                Name = result.Data.Books.Name,
+                Stock = result.Data.Books.Stock,
                 Categories = resultCategories.Data.Categories,
                 Authors = resultAuthors.Data.Authors
             });
@@ -95,18 +98,30 @@ namespace StokTakip.Mvc.Controllers
             }
             return View();
         }
-        
+
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> GetByCategory(int Id)
+        public async Task<IActionResult> GetByCategory(int categoryId)
         {
-            var result = await _bookService.GetAllByCategoryAsync(Id);
+            var result = await _bookService.GetAllByCategoryAsync(categoryId);
 
-                return View(result.Data);
+            return PartialView("GetByCategory",result.Data);
 
 
         }
 
+        //[Authorize]
+        //[HttpGet]
+        //public async Task<JsonResult> GetByCategory(int Id)
+        //{
+        //    var result = await _bookService.GetAllByCategoryAsync(Id);
+        //    var categories = JsonSerializer.Serialize(result.Data, new JsonSerializerOptions
+        //    {
+        //        ReferenceHandler = ReferenceHandler.Preserve
+        //    });
+        //    return Json(categories);
 
+
+        //}
     }
 }
