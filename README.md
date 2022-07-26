@@ -44,3 +44,12 @@ Bir Kitap mağazasının kitap stoklarını takip edebilmek için yapılmış bi
 <br/>
 ![Ekran Görüntüsü (444)](https://user-images.githubusercontent.com/79534661/180772255-42934ea8-0de3-49a4-8fcf-74fef98426d1.png)
 <br/>
+<br/>
+
+<p>3-jQery Ajax ile yapılmış kategori işlemleri<p/>
+
+
+
+https://user-images.githubusercontent.com/79534661/181121024-fd67ae91-97b4-4601-8d7e-9098d785c481.mp4
+<p>Modal,Toastr ve sweetalert2 kullanılmıştır.<p/>
+
