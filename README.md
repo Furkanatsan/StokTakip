@@ -46,7 +46,7 @@ Bir Kitap mağazasının kitap stoklarını takip edebilmek için yapılmış bi
 <br/>
 <br/>
 
-<p>3-jQery Ajax ile yapılmış kategori işlemleri<p/>
+<p>3-jQuery Ajax ile yapılmış kategori işlemleri<p/>
 
 
 
